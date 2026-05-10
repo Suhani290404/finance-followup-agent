@@ -72,20 +72,20 @@ st.dataframe(df, use_container_width=True)
 
 def get_stage(days):
 
-if days <= 7:
-    return "Stage 1 - Friendly"
+    if days <= 7:
+        return "Stage 1 – Friendly"
 
-elif days <= 14:
-    return "Stage 2 - Firm"
+    elif days <= 14:
+        return "Stage 2 – Firm"
 
-elif days <= 21:
-    return "Stage 3 - Serious"
+    elif days <= 21:
+        return "Stage 3 – Serious"
 
-elif days <= 30:
-    return "Stage 4 - Urgent"
+    elif days <= 30:
+        return "Stage 4 – Urgent"
 
-else:
-    return "Escalate to Legal"
+    else:
+        return "Escalate to Legal"
 
 def generate_email(client_name, invoice, amount, days_overdue, stage):
 

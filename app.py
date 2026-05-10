@@ -94,7 +94,7 @@ def generate_email(client_name, invoice,
 
 if stage == "Stage 1 - Friendly":
 
-    return f"""
+return f"""
 Subject: Friendly Reminder for Invoice {invoice}
 
 Dear {client_name},
@@ -111,7 +111,7 @@ Finance Team
 
 elif stage == "Stage 2 - Firm":
 
-    return f"""
+return f"""
 Subject: Payment Reminder for Invoice {invoice}
 
 Dear {client_name},
@@ -126,7 +126,7 @@ Finance Team
 
 elif stage == "Stage 3 - Serious":
 
-    return f"""
+return f"""
 Subject: Urgent Payment Follow-Up for Invoice {invoice}
 
 Dear {client_name},
@@ -141,7 +141,7 @@ Finance Collections Team
 
 elif stage == "Stage 4 - Urgent":
 
-    return f"""
+return f"""
 Subject: Final Reminder Before Escalation
 
 Dear {client_name},
@@ -156,7 +156,7 @@ Finance Escalation Team
 
 else:
 
-    return f"""
+return f"""
 Subject: Legal Escalation Notice
 
 Dear {client_name},
@@ -182,17 +182,17 @@ if st.button("Generate Follow-Up Email"):
 row = df.loc[selected_row]
 
 email = generate_email(
-    row["Client"],
-    row["Invoice"],
-    row["Amount"],
-    row["Days Overdue"],
-    row["Follow-Up Stage"]
+row["Client"],
+row["Invoice"],
+row["Amount"],
+row["Days Overdue"],
+row["Follow-Up Stage"]
 )
 
 st.text_area(
-    "Generated Email",
-    email,
-    height=300
+"Generated Email",
+email,
+height=300
 )
 
 # ---------------- FINAL TABLE ----------------

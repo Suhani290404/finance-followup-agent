@@ -87,14 +87,11 @@ elif days <= 30:
 else:
     return "Escalate to Legal"
 
-df["Follow-Up Stage"] = df["Days Overdue"].apply(get_stage)
-def generate_email(client_name, invoice,
-                amount, days_overdue,
-                stage):
+def generate_email(client_name, invoice, amount, days_overdue, stage):
 
-if stage == "Stage 1 - Friendly":
+    if stage == "Stage 1 – Friendly":
 
-return f"""
+        return f"""
 Subject: Friendly Reminder for Invoice {invoice}
 
 Dear {client_name},
@@ -109,9 +106,9 @@ Best regards,
 Finance Team
 """
 
-elif stage == "Stage 2 - Firm":
+    elif stage == "Stage 2 – Firm":
 
-return f"""
+        return f"""
 Subject: Payment Reminder for Invoice {invoice}
 
 Dear {client_name},
@@ -124,9 +121,9 @@ Regards,
 Finance Team
 """
 
-elif stage == "Stage 3 - Serious":
+    elif stage == "Stage 3 – Serious":
 
-return f"""
+        return f"""
 Subject: Urgent Payment Follow-Up for Invoice {invoice}
 
 Dear {client_name},
@@ -139,9 +136,9 @@ Regards,
 Finance Collections Team
 """
 
-elif stage == "Stage 4 - Urgent":
+    elif stage == "Stage 4 – Urgent":
 
-return f"""
+        return f"""
 Subject: Final Reminder Before Escalation
 
 Dear {client_name},
@@ -154,9 +151,9 @@ Regards,
 Finance Escalation Team
 """
 
-else:
+    else:
 
-return f"""
+        return f"""
 Subject: Legal Escalation Notice
 
 Dear {client_name},
@@ -170,30 +167,32 @@ Please contact us immediately.
 Regards,
 Legal Collections Team
 """
+
+
 st.subheader("AI Email Generator")
 
 selected_row = st.selectbox(
-"Select Client",
-df.index
+    "Select Client",
+    df.index
 )
 
 if st.button("Generate Follow-Up Email"):
 
-row = df.loc[selected_row]
+    row = df.loc[selected_row]
 
-email = generate_email(
-row["Client"],
-row["Invoice"],
-row["Amount"],
-row["Days Overdue"],
-row["Follow-Up Stage"]
-)
+    email = generate_email(
+        row["Client"],
+        row["Invoice"],
+        row["Amount"],
+        row["Days Overdue"],
+        row["Follow-Up Stage"]
+    )
 
-st.text_area(
-"Generated Email",
-email,
-height=300
-)
+    st.text_area(
+        "Generated Email",
+        email,
+        height=300
+    )
 
 # ---------------- FINAL TABLE ----------------
 

@@ -32,35 +32,18 @@ uploaded_file = st.sidebar.file_uploader(
 if uploaded_file is not None:
 
     df = pd.read_csv(uploaded_file)
-
-else:
-
-    sample_data = {
-        "Client": ["ABC Ltd", "XYZ Corp", "NovaTech"],
-        "Invoice": ["INV001", "INV002", "INV003"],
-        "Amount": [45000, 78000, 12000],
-        "Days Overdue": [5, 16, 28],
-        "Email": [
-            "abc@gmail.com",
-            "xyz@gmail.com",
-            "nova@gmail.com"
-        ]
-    }
-
-    df = pd.DataFrame(sample_data)
-
 # ---------------- METRICS ----------------
 # ---------------- DATE PROCESSING ----------------
 
 df["Due Date"] = pd.to_datetime(
-    df["Due Date"],
-    dayfirst=True
+df["Due Date"],
+dayfirst=True
 )
 
 today = pd.Timestamp.today()
 
 df["Days Overdue"] = (
-    today - df["Due Date"]
+today - df["Due Date"]
 ).dt.days
 
 col1, col2, col3 = st.columns(3)
@@ -68,13 +51,13 @@ col1, col2, col3 = st.columns(3)
 col1.metric("Total Invoices", len(df))
 
 col2.metric(
-    "Total Outstanding",
-    f"₹{df['Amount'].sum():,}"
+"Total Outstanding",
+f"₹{df['Amount'].sum():,}"
 )
 
 col3.metric(
-    "Critical Cases",
-    len(df[df["Days Overdue"] > 21])
+"Critical Cases",
+len(df[df["Days Overdue"] > 21])
 )
 
 st.divider()
@@ -89,29 +72,29 @@ st.dataframe(df, use_container_width=True)
 
 def get_stage(days):
 
-    if days <= 7:
-        return "Stage 1 - Friendly"
+if days <= 7:
+    return "Stage 1 - Friendly"
 
-    elif days <= 14:
-        return "Stage 2 - Firm"
+elif days <= 14:
+    return "Stage 2 - Firm"
 
-    elif days <= 21:
-        return "Stage 3 - Serious"
+elif days <= 21:
+    return "Stage 3 - Serious"
 
-    elif days <= 30:
-        return "Stage 4 - Urgent"
+elif days <= 30:
+    return "Stage 4 - Urgent"
 
-    else:
-        return "Escalate to Legal"
+else:
+    return "Escalate to Legal"
 
 df["Follow-Up Stage"] = df["Days Overdue"].apply(get_stage)
 def generate_email(client_name, invoice,
-                   amount, days_overdue,
-                   stage):
+                amount, days_overdue,
+                stage):
 
-    if stage == "Stage 1 - Friendly":
+if stage == "Stage 1 - Friendly":
 
-        return f"""
+    return f"""
 Subject: Friendly Reminder for Invoice {invoice}
 
 Dear {client_name},
@@ -126,9 +109,9 @@ Best regards,
 Finance Team
 """
 
-    elif stage == "Stage 2 - Firm":
+elif stage == "Stage 2 - Firm":
 
-        return f"""
+    return f"""
 Subject: Payment Reminder for Invoice {invoice}
 
 Dear {client_name},
@@ -141,9 +124,9 @@ Regards,
 Finance Team
 """
 
-    elif stage == "Stage 3 - Serious":
+elif stage == "Stage 3 - Serious":
 
-        return f"""
+    return f"""
 Subject: Urgent Payment Follow-Up for Invoice {invoice}
 
 Dear {client_name},
@@ -156,9 +139,9 @@ Regards,
 Finance Collections Team
 """
 
-    elif stage == "Stage 4 - Urgent":
+elif stage == "Stage 4 - Urgent":
 
-        return f"""
+    return f"""
 Subject: Final Reminder Before Escalation
 
 Dear {client_name},
@@ -171,9 +154,9 @@ Regards,
 Finance Escalation Team
 """
 
-    else:
+else:
 
-        return f"""
+    return f"""
 Subject: Legal Escalation Notice
 
 Dear {client_name},
@@ -190,27 +173,27 @@ Legal Collections Team
 st.subheader("AI Email Generator")
 
 selected_row = st.selectbox(
-    "Select Client",
-    df.index
+"Select Client",
+df.index
 )
 
 if st.button("Generate Follow-Up Email"):
 
-    row = df.loc[selected_row]
+row = df.loc[selected_row]
 
-    email = generate_email(
-        row["Client"],
-        row["Invoice"],
-        row["Amount"],
-        row["Days Overdue"],
-        row["Follow-Up Stage"]
-    )
+email = generate_email(
+    row["Client"],
+    row["Invoice"],
+    row["Amount"],
+    row["Days Overdue"],
+    row["Follow-Up Stage"]
+)
 
-    st.text_area(
-        "Generated Email",
-        email,
-        height=300
-    )
+st.text_area(
+    "Generated Email",
+    email,
+    height=300
+)
 
 # ---------------- FINAL TABLE ----------------
 

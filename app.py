@@ -86,6 +86,7 @@ elif days <= 30:
 
 else:
     return "Escalate to Legal"
+df["Follow-Up Stage"] = df["Days Overdue"].apply(get_stage)
 
 def generate_email(client_name, invoice, amount, days_overdue, stage):
 
